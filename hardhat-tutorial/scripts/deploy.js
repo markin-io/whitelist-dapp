@@ -7,12 +7,16 @@
 const { ethers } = require("hardhat");
 
 async function main() {
-  const deployedContract = await ethers.deployContract('Whitelist', [10]);
+  const contract = await ethers.getContractFactory("Whitelist");
 
-  console.log('Deploying contract...');
-  await deployedContract.waitForDeployment();
+  const deployedContract = await contract.deploy(10);
 
-  console.log('Contract deployed to:', await deployedContract.getAddress());
+  await deployedContract.deployed();
+
+  console.log('Contract deployed to:', await deployedContract.address);
+  console.log({
+    target: deployedContract.target
+  })
 }
 
 // We recommend this pattern to be able to use async/await everywhere
